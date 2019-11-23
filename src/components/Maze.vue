@@ -166,6 +166,19 @@ var app = {
             this.posx++;
           break;
       }
+      if (this.win()) this.game_win();
+    },
+    win() {
+      return (
+        this.posy == this.maze.data.length - 1 &&
+        this.posx == this.maze.data[0].length
+      );
+    },
+    game_win() {
+      // avertirServer
+      // changerTexte
+      console.log(`${this.playerId} has won!!!`);
+      return;
     }
   }
 };
