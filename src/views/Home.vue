@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png" />
-    <Maze level="advanced" />
+    <Maze level="beginner" />
   </div>
 </template>
 

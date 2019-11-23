@@ -9,10 +9,30 @@
             v-for="(cell, headerKey2) in row"
             :key="headerKey2"
             :style="{
-              borderRight: cell.right == 0 ? '1px solid black' : '',
-              borderLeft: cell.left == 0 ? '1px solid black' : '',
-              borderTop: cell.top == 0 ? '1px solid black' : '',
-              borderBottom: cell.bottom == 0 ? '1px solid black' : ''
+              borderRight:
+                cell.right == 0
+                  ? row.indexOf(cell) == row.length - 1
+                    ? '2px solid black'
+                    : '1px solid black'
+                  : '',
+              borderLeft:
+                cell.left == 0
+                  ? row.indexOf(cell) == 0
+                    ? '2px solid black'
+                    : '1px solid black'
+                  : '',
+              borderTop:
+                cell.top == 0
+                  ? maze.data.indexOf(row) == 0
+                    ? '2px solid black'
+                    : '1px solid black'
+                  : '',
+              borderBottom:
+                cell.bottom == 0
+                  ? maze.data.indexOf(row) == maze.data.length - 1
+                    ? '2px solid black'
+                    : '1px solid black'
+                  : ''
             }"
           >
             {{ '\xa0' }}
