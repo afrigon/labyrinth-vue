@@ -4,7 +4,7 @@
 
 <script>
 import labyrinthApi from '../api/labyrinthApi';
-console.log('ello');
+
 export default {
   name: 'Maze',
   props: {
