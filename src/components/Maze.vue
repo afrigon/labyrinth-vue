@@ -1,9 +1,7 @@
 <template>
-  <div
-    style="display: flex; align-items: center; justify-content: center; width: 100%; height: 100vh;"
-  >
-    <table
-      style="margin: auto; table-layout: fixed; width: 100%; height: 100vh;"
+  <div class="flex-container">
+    <!-- <table
+      style="margin: auto; table-layout: fixed; width: 100%; height: 100%;"
       cellspacing="0"
     >
       <thead>
@@ -44,7 +42,42 @@
           </td>
         </tr>
       </thead>
-    </table>
+    </table> -->
+    <div class="row" v-for="(row, i) in maze.data" :key="i">
+      <div
+        class="cell"
+        v-for="(cell, j) in row"
+        :key="j"
+        :style="{
+          borderRight:
+            cell.right == 0
+              ? row.indexOf(cell) == row.length - 1
+                ? '2px solid black'
+                : '2px solid black'
+              : '2px solid white',
+          borderLeft:
+            cell.left == 0
+              ? row.indexOf(cell) == 0
+                ? '2px solid black'
+                : '2px solid black'
+              : '2px solid white',
+          borderTop:
+            cell.top == 0
+              ? maze.data.indexOf(row) == 0
+                ? '2px solid black'
+                : '2px solid black'
+              : '2px solid white',
+          borderBottom:
+            cell.bottom == 0
+              ? maze.data.indexOf(row) == maze.data.length - 1
+                ? '2px solid black'
+                : '2px solid black'
+              : '2px solid white'
+        }"
+      >
+        {{ j == posx && i == posy ? 'X' : '\xa0' }}
+      </div>
+    </div>
   </div>
 </template>
 
@@ -94,6 +127,26 @@ export default app;
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.flex-container {
+  display: flex;
+  width: 100%;
+  height: 97vh;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+}
+.row {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}
+.cell {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
 h3 {
   margin: 40px 0 0;
 }
