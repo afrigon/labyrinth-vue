@@ -3,7 +3,9 @@
 </template>
 
 <script>
-import labyrinthApi from '../api/labyrinthApi';
+import firebaseApi from '../api/firebaseApi';
+
+const onStateUpdate = console.log;
 
 export default {
   name: 'Maze',
@@ -11,10 +13,15 @@ export default {
     level: String
   },
   data: () => ({
+    gameId: null,
     maze: null
   }),
   async mounted() {
-    this.maze = await labyrinthApi.getMaze('beginner');
+    const id = 'xehos';
+    this.gameId = await firebaseApi.createGame(id);
+    await firebaseApi.setPosition(this.gameId, id, 10, 20);
+
+    await firebaseApi.watchGame(this.gameId, onStateUpdate);
   }
 };
 </script>
