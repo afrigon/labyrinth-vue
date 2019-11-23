@@ -6,7 +6,6 @@
         v-for="(cell, j) in row"
         :key="j"
         :style="{
-          borderRadius: 20,
           borderRight:
             cell.right == 0
               ? row.indexOf(cell) == row.length - 1
@@ -64,7 +63,6 @@ var app = {
   }),
   async mounted() {
     this.gameId = this.$route.params.gameId;
-    console.log(this.gameId);
 
     var user = await labyrinthApi.fetchCurrentUser();
     this.playerId = user.data.id;
