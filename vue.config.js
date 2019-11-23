@@ -1,4 +1,4 @@
 module.exports = {
-    publicPath: 'labyrinth-vue'
+    publicPath: process.env.NODE_ENV == 'production' ? 'labyrinth-vue' : ''
 };
 

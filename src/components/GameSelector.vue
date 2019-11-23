@@ -50,7 +50,7 @@ export default {
         return;
       }
       await firebaseApi.createGame(level, this.gameId, user.data.id);
-      window.location.href = `/maze/${this.gameId}`;
+      this.$router.push({ path: `/maze/${this.gameId}` });
     }
   }
 };
