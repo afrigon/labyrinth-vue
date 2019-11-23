@@ -12,25 +12,29 @@
               ? row.indexOf(cell) == row.length - 1
                 ? '4px solid black'
                 : '2px solid black'
-              : '2px solid white',
+              : '',
+          paddingRight: cell.right == 1 ? '2px' : '',
           borderLeft:
             cell.left == 0
               ? row.indexOf(cell) == 0
                 ? '4px solid black'
                 : '2px solid black'
-              : '2px solid white',
+              : '',
+          paddingLeft: cell.left == 1 ? '2px' : '',
           borderTop:
             cell.top == 0
               ? maze.data.indexOf(row) == 0
                 ? '4px solid black'
                 : '2px solid black'
-              : '2px solid white',
+              : '',
+          paddingTop: cell.top != 0 ? '2px' : '',
           borderBottom:
             cell.bottom == 0
               ? maze.data.indexOf(row) == maze.data.length - 1
                 ? '4px solid black'
                 : '2px solid black'
-              : '2px solid white'
+              : '',
+          paddingBottom: cell.bottom != 0 ? '2px' : ''
         }"
       >
         <span v-for="(player, p) in players" :key="p">
@@ -154,6 +158,7 @@ export default app;
   align-items: center;
   box-sizing: border-box;
 }
+
 h3 {
   margin: 40px 0 0;
 }
