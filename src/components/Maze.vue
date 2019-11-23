@@ -6,6 +6,7 @@
         v-for="(cell, j) in row"
         :key="j"
         :style="{
+          borderRadius: 20,
           borderRight:
             cell.right == 0
               ? row.indexOf(cell) == row.length - 1
@@ -98,25 +99,28 @@ var app = {
   },
   methods: {
     handleKey(e) {
+      var godmode = true;
       switch (e) {
         case 'ArrowUp':
         case 'KeyW':
         case 'KeyK':
-          if (this.maze.data[this.posy][this.posx].top) this.posy--;
+          if (godmode || this.maze.data[this.posy][this.posx].top) this.posy--;
           break;
         case 'ArrowLeft':
         case 'KeyA':
         case 'KeyH':
-          if (this.maze.data[this.posy][this.posx].left) this.posx--;
+          if (godmode || this.maze.data[this.posy][this.posx].left) this.posx--;
           break;
         case 'ArrowDown':
         case 'KeyJ':
-          if (this.maze.data[this.posy][this.posx].bottom) this.posy++;
+          if (godmode || this.maze.data[this.posy][this.posx].bottom)
+            this.posy++;
           break;
         case 'ArrowRight':
         case 'KeyD':
         case 'KeyL':
-          if (this.maze.data[this.posy][this.posx].right) this.posx++;
+          if (godmode || this.maze.data[this.posy][this.posx].right)
+            this.posx++;
           break;
       }
     }
