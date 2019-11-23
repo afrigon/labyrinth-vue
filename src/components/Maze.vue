@@ -94,7 +94,7 @@ var app = {
     });
 
     const gameState = await firebaseApi.getState(this.gameId);
-    this.onStateUpdate(gameState);
+    this.onStateUpdate(gameState.players || []);
 
     await firebaseApi.watchGame(this.gameId, this.onStateUpdate);
 
