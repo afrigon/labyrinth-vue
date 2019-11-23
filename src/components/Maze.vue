@@ -1,6 +1,6 @@
 <template>
   <div syle="width:100%;">
-    <table style="border: 1px solid black; margin: auto;">
+    <table style="margin: auto;" cellspacing="0">
       <thead>
         <tr v-for="(row, headerKey) in maze.data" :key="headerKey">
           <td
