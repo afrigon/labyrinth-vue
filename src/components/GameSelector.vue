@@ -13,7 +13,7 @@
       Advanced
     </button>
 
-    <h1>Rejoindre une partie:</h1>
+    <h1>Rejoindre une partie</h1>
     <p v-if="!loaded">Chargement...</p>
     <p v-if="loaded && games.length == 0">Aucune partie en cours</p>
     <ul v-if="games.length > 0">
