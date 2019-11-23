@@ -1,62 +1,70 @@
 <template>
-  <div class="flex-container">
-    <div class="row" v-for="(row, i) in maze.data" :key="i">
-      <div
-        class="cell"
-        v-for="(cell, j) in row"
-        :key="j"
-        :style="{
-          borderRight:
-            cell.right == 0
-              ? row.indexOf(cell) == row.length - 1
-                ? '4px solid black'
-                : '2px solid black'
-              : '',
-          paddingRight:
-            cell.right == 1
-              ? row.indexOf(cell) == row.length - 1
-                ? '4px'
-                : '2px'
-              : '',
-          borderLeft:
-            cell.left == 0
-              ? row.indexOf(cell) == 0
-                ? '4px solid black'
-                : '2px solid black'
-              : '',
-          paddingLeft: cell.left == 1 ? '2px' : '',
-          borderTop:
-            cell.top == 0
-              ? maze.data.indexOf(row) == 0
-                ? '4px solid black'
-                : '2px solid black'
-              : '',
-          paddingTop: cell.top == 1 ? '2px' : '',
-          borderBottom:
-            cell.bottom == 0
-              ? maze.data.indexOf(row) == maze.data.length - 1
-                ? '4px solid black'
-                : '2px solid black'
-              : '',
-          paddingBottom: cell.bottom == 1 ? '2px' : ''
-        }"
+  <div class="root">
+    <div class="top-flex">
+      <button
+        style="position: absolute; top: 20px; right: 20px;"
+        @click="logout"
       >
-        <span v-for="(player, p) in players" :key="p">
-          <span
-            v-if="
-              player.position &&
-                player.position.x == j &&
-                player.position.y == i
-            "
-            class="dot"
-            :style="{ backgroundColor: player.color }"
-          ></span>
-        </span>
+        logout
+      </button>
+    </div>
+
+    <div class="flex-container">
+      <div class="row" v-for="(row, i) in maze.data" :key="i">
+        <div
+          class="cell"
+          v-for="(cell, j) in row"
+          :key="j"
+          :style="{
+            borderRight:
+              cell.right == 0
+                ? row.indexOf(cell) == row.length - 1
+                  ? '4px solid black'
+                  : '2px solid black'
+                : '',
+            paddingRight:
+              cell.right == 1
+                ? row.indexOf(cell) == row.length - 1
+                  ? '4px'
+                  : '2px'
+                : '',
+            borderLeft:
+              cell.left == 0
+                ? row.indexOf(cell) == 0
+                  ? '4px solid black'
+                  : '2px solid black'
+                : '',
+            paddingLeft: cell.left == 1 ? '2px' : '',
+            borderTop:
+              cell.top == 0
+                ? maze.data.indexOf(row) == 0
+                  ? '4px solid black'
+                  : '2px solid black'
+                : '',
+            paddingTop: cell.top == 1 ? '2px' : '',
+            borderBottom:
+              cell.bottom == 0
+                ? maze.data.indexOf(row) == maze.data.length - 1
+                  ? '4px solid black'
+                  : '2px solid black'
+                : '',
+            paddingBottom: cell.bottom == 1 ? '2px' : ''
+          }"
+        >
+          <span v-for="(player, p) in players" :key="p">
+            <span
+              v-if="
+                player.position &&
+                  player.position.x == j &&
+                  player.position.y == i
+              "
+              class="dot"
+              :style="{ backgroundColor: player.color }"
+            ></span>
+          </span>
+        </div>
       </div>
     </div>
-    <button style="position: absolute; top: 20px; right: 20px;" @click="logout">
-      logout
-    </button>
   </div>
 </template>
 
@@ -165,12 +173,21 @@ export default app;
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.root {
+  width: 100%;
+  height: 100%;
+}
+.top-flex {
+  display: flex;
+  height: 10vmin;
+  width: 97vw;
+}
 .flex-container {
   display: flex;
-  width: 97vmin;
-  height: 97vmin;
+  width: 85vmin;
+  height: 85vmin;
   flex-direction: column;
-  justify-content: center;
+  justify-content: bottom;
   align-content: center;
   margin: auto;
 }
