@@ -52,25 +52,25 @@
           borderRight:
             cell.right == 0
               ? row.indexOf(cell) == row.length - 1
-                ? '2px solid black'
+                ? '4px solid black'
                 : '2px solid black'
               : '2px solid white',
           borderLeft:
             cell.left == 0
               ? row.indexOf(cell) == 0
-                ? '2px solid black'
+                ? '4px solid black'
                 : '2px solid black'
               : '2px solid white',
           borderTop:
             cell.top == 0
               ? maze.data.indexOf(row) == 0
-                ? '2px solid black'
+                ? '4px solid black'
                 : '2px solid black'
               : '2px solid white',
           borderBottom:
             cell.bottom == 0
               ? maze.data.indexOf(row) == maze.data.length - 1
-                ? '2px solid black'
+                ? '4px solid black'
                 : '2px solid black'
               : '2px solid white'
         }"
@@ -101,6 +101,7 @@ var app = {
   async mounted() {
     var user = await labyrinthApi.fetchCurrentUser();
     this.playerId = user.data.id;
+    this.level = this.level || 'advanced';
     this.maze = await labyrinthApi.getMaze(this.level);
 
     window.addEventListener('keydown', e => {
@@ -174,6 +175,8 @@ export default app;
   display: flex;
   flex-direction: row;
   height: 100%;
+  align-content: center;
+  box-sizing: border-box;
 }
 .cell {
   display: flex;
@@ -181,7 +184,7 @@ export default app;
   height: 100%;
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
+  box-sizing: border-box;
 }
 h3 {
   margin: 40px 0 0;
