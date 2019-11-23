@@ -1,48 +1,5 @@
 <template>
   <div class="flex-container">
-    <!-- <table
-      style="margin: auto; table-layout: fixed; width: 100%; height: 100%;"
-      cellspacing="0"
-    >
-      <thead>
-        <tr v-for="(row, i) in maze.data" :key="i">
-          <td
-            width="10"
-            height="10"
-            v-for="(cell, j) in row"
-            :key="j"
-            :style="{
-              borderRight:
-                cell.right == 0
-                  ? row.indexOf(cell) == row.length - 1
-                    ? '2px solid black'
-                    : '1px solid black'
-                  : '',
-              borderLeft:
-                cell.left == 0
-                  ? row.indexOf(cell) == 0
-                    ? '2px solid black'
-                    : '1px solid black'
-                  : '',
-              borderTop:
-                cell.top == 0
-                  ? maze.data.indexOf(row) == 0
-                    ? '2px solid black'
-                    : '1px solid black'
-                  : '',
-              borderBottom:
-                cell.bottom == 0
-                  ? maze.data.indexOf(row) == maze.data.length - 1
-                    ? '2px solid black'
-                    : '1px solid black'
-                  : ''
-            }"
-          >
-            {{ j == posx && i == posy ? 'X' : '\xa0' }}
-          </td>
-        </tr>
-      </thead>
-    </table> -->
     <div class="row" v-for="(row, i) in maze.data" :key="i">
       <div
         class="cell"
@@ -101,7 +58,7 @@ var app = {
   async mounted() {
     var user = await labyrinthApi.fetchCurrentUser();
     this.playerId = user.data.id;
-    this.maze = await labyrinthApi.getMaze(this.level);
+    this.maze = await labyrinthApi.getMaze('advanced'); // TODO CRISS
 
     window.addEventListener('keydown', e => {
       if ([37, 38, 39, 40].indexOf(e.keyCode) !== -1) e.preventDefault();
