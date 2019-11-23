@@ -194,6 +194,11 @@ export default app;
   display: flex;
   height: 10vmin;
   width: 97vw;
+  align-items: center;
+  justify-content: space-around;
+}
+.win-text {
+  color: red;
 }
 .flex-container {
   display: flex;
