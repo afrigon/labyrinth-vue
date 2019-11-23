@@ -66,6 +66,7 @@ var app = {
     });
 
     this.gameId = await firebaseApi.createGame(this.playerId);
+
     await firebaseApi.watchGame(this.gameId, state => {
       const players = state.toJSON();
       let values = [];
@@ -137,6 +138,7 @@ export default app;
   height: 100%;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
 }
 h3 {
   margin: 40px 0 0;

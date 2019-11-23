@@ -1,8 +1,12 @@
 <template>
-  <div>
+  <div class="container">
     <h1>Créer une partie</h1>
-    <input v-model="gameId" placeholder="Nom de la partie..." />
-    <button @click="this.createGame">Créer</button>
+    <input
+      class="create-input"
+      v-model="gameId"
+      placeholder="Nom de la partie..."
+    />
+    <button class="create-button" @click="this.createGame">Créer</button>
 
     <h1>Rejoindre une partie:</h1>
     <p v-if="!loaded">Chargement...</p>
@@ -39,3 +43,22 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+li {
+  list-style: none;
+}
+
+.container {
+  text-align: left;
+  padding: 20px;
+}
+
+.create-button {
+  margin-left: 10px;
+}
+
+.create-input {
+  margin-left: 30px;
+}
+</style>
