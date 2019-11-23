@@ -10,6 +10,7 @@ const db = firebase.database(app);
 const createGame = async (level, gameId, playerId) => {
   await db.ref('game/' + gameId).set({
     level: level,
+    over: false,
     players: {
       [playerId]: {
         color: randomColor(),
@@ -44,7 +45,7 @@ const getGames = async () => {
     id: k,
     ...games[k]
   }));
-  games = games.filter(g => Object.keys(g.players).length < 4);
+  games = games.filter(g => !g.over && Object.keys(g.players).length < 4);
   return games.map(g => g.id);
 };
 

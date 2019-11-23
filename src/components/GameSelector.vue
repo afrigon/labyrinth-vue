@@ -46,6 +46,7 @@ export default {
       var user = await labyrinthApi.fetchCurrentUser();
       if (this.gameId === '') return;
       await firebaseApi.createGame(level, this.gameId, user.data.id);
+      window.location.href = `/maze/${this.gameId}`;
     }
   }
 };
