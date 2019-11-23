@@ -1,6 +1,7 @@
 <template>
   <div class="root">
     <div class="top-flex">
+      <div class="win-text">{{ this.winText }}</div>
       <button
         style="position: absolute; top: 20px; right: 20px;"
         @click="logout"
@@ -84,7 +85,8 @@ var app = {
     posx: 0,
     posy: 0,
     players: [],
-    godmode: false
+    godmode: false,
+    winText: 'No one has won yet...'
   }),
   async mounted() {
     this.gameId = this.$route.params.gameId;
@@ -121,6 +123,10 @@ var app = {
   },
   methods: {
     onStateUpdate(players) {
+      if (players === true) {
+        alert('Game over');
+        return;
+      }
       let values = [];
 
       for (let player in players) {
@@ -174,7 +180,10 @@ var app = {
         this.posx == this.maze.data[0].length
       );
     },
-    game_win() {}
+    game_win() {
+      firebaseApi.endGame(this.gameId);
+      this.winText = `${this.playerId} has won!!!`;
+    }
   }
 };
 export default app;
