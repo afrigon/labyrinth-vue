@@ -166,11 +166,12 @@ export default app;
 <style scoped>
 .flex-container {
   display: flex;
-  width: 100%;
-  height: 97vh;
+  width: 97vmin;
+  height: 97vmin;
   flex-direction: column;
   justify-content: center;
   align-content: center;
+  margin: auto;
 }
 .row {
   display: flex;
