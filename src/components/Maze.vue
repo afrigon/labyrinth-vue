@@ -65,7 +65,6 @@ var app = {
     this.maze = await labyrinthApi.getMaze(this.level);
 
     window.addEventListener('keydown', e => {
-      console.log(e.keyCode);
       if ([37, 38, 39, 40].indexOf(e.keyCode) !== -1) e.preventDefault();
       this.handleKey(e.code, false);
     });
@@ -74,16 +73,20 @@ var app = {
     handleKey(e) {
       switch (e) {
         case 'ArrowUp':
+        case 'KeyW':
           if (this.maze.data[this.posy][this.posx].top) this.posy--;
           break;
+        case 'ArrowLeft':
+        case 'KeyA':
+          if (this.maze.data[this.posy][this.posx].left) this.posx--;
+          break;
         case 'ArrowDown':
+        case 'KeyS':
           if (this.maze.data[this.posy][this.posx].bottom) this.posy++;
           break;
         case 'ArrowRight':
+        case 'KeyD':
           if (this.maze.data[this.posy][this.posx].right) this.posx++;
-          break;
-        case 'ArrowLeft':
-          if (this.maze.data[this.posy][this.posx].left) this.posx--;
           break;
       }
     }
