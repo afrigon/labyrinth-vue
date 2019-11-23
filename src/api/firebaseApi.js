@@ -1,20 +1,16 @@
 import * as firebase from 'firebase/app';
 import 'firebase/database';
-//import uuid from 'uuid/v4';
 import randomColor from 'randomcolor';
-
-const uuid = () => '1338';
 
 const app = firebase.initializeApp({
   databaseURL: 'https://hackathon-aeglo-19.firebaseio.com'
 });
 const db = firebase.database(app);
 
-const createGame = async id => {
-  const gameId = uuid();
+const createGame = async (gameId, playerId) => {
   await db.ref('game/' + gameId).set({
     players: {
-      [id]: {
+      [playerId]: {
         color: randomColor(),
         position: {
           x: 0,
@@ -23,7 +19,6 @@ const createGame = async id => {
       }
     }
   });
-  return gameId;
 };
 
 const joinGame = async (gameId, playerId) => {

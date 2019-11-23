@@ -181,6 +181,7 @@ export default app;
   height: 100%;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
 }
 h3 {
   margin: 40px 0 0;
