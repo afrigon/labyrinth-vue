@@ -1,6 +1,7 @@
 <template>
   <div class="root">
     <div class="top-flex">
+      <div class="win-text">{{ this.winText }}</div>
       <button
         style="position: absolute; top: 20px; right: 20px;"
         @click="logout"
@@ -84,7 +85,8 @@ var app = {
     posx: 0,
     posy: 0,
     players: [],
-    godmode: false
+    godmode: false,
+    winText: 'Game in progress...'
   }),
   async mounted() {
     this.gameId = this.$route.params.gameId;
@@ -102,6 +104,9 @@ var app = {
     });
 
     const gameState = await firebaseApi.getState(this.gameId);
+    if (gameState.over === true) {
+      this.$router.push('/');
+    }
     this.onStateUpdate(gameState.players || []);
 
     await firebaseApi.watchGame(this.gameId, state =>
@@ -122,7 +127,7 @@ var app = {
   methods: {
     onStateUpdate(players) {
       if (players === true) {
-        alert('Game over');
+        this.winText = 'Game Over!';
         return;
       }
       let values = [];
@@ -200,7 +205,9 @@ export default app;
   justify-content: space-around;
 }
 .win-text {
-  color: red;
+  color: magenta;
+  font-family: 'Comic Sans MS';
+  font-size: 6vmin;
 }
 .flex-container {
   display: flex;
