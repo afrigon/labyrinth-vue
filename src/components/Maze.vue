@@ -32,7 +32,22 @@
               : '2px solid white'
         }"
       >
-        {{ j == posx && i == posy ? 'X' : '\xa0' }}
+        {{ j == posx && i == posy ? '1' : '\xa0' }}
+        {{
+          players[0] && j == players[0].position.x && i == players[0].position.y
+            ? '2'
+            : '\xa0'
+        }}
+        {{
+          players[1] && j == players[1].position.x && i == players[1].position.y
+            ? '3'
+            : '\xa0'
+        }}
+        {{
+          players[2] && j == players[2].position.x && i == players[2].position.y
+            ? '4'
+            : '\xa0'
+        }}
       </div>
     </div>
   </div>
