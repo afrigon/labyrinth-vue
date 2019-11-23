@@ -1,6 +1,11 @@
 <template>
-  <div syle="width:100%;">
-    <table style="margin: auto;" cellspacing="0">
+  <div
+    style="display: flex; align-items: center; justify-content: center; width: 100%; height: 100vh;"
+  >
+    <table
+      style="margin: auto; table-layout: fixed; width: 100%; height: 100vh;"
+      cellspacing="0"
+    >
       <thead>
         <tr v-for="(row, headerKey) in maze.data" :key="headerKey">
           <td
