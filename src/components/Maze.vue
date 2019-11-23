@@ -123,7 +123,6 @@ var app = {
   },
   methods: {
     onStateUpdate(players) {
-      console.log(players);
       if (players === true) {
         alert('Game over');
         return;
