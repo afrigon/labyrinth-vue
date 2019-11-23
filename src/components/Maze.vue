@@ -76,15 +76,10 @@ var app = {
 
     var user = await labyrinthApi.fetchCurrentUser();
     this.playerId = user.data.id;
-<<<<<<< HEAD
-    this.level = this.level || 'advanced';
-    this.maze = await labyrinthApi.getMaze(this.level);
-=======
 
     await firebaseApi.joinGame(this.gameId, this.playerId);
     var level = await firebaseApi.getGameLevel(this.gameId);
     this.maze = await labyrinthApi.getMaze(level);
->>>>>>> d547a77514be37a36d084af6139fc03f618b082b
 
     window.addEventListener('keydown', e => {
       if ([37, 38, 39, 40].indexOf(e.keyCode) !== -1) e.preventDefault();
