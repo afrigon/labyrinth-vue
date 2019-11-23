@@ -56,8 +56,12 @@ const getGames = async () => {
   return games.map(g => g.id);
 };
 
-const watchGame = (gameId, callback) => {
-  return db.ref('game/' + gameId).on('child_changed', callback);
+const watchGame = async (gameId, callback) => {
+  await db.ref('game/' + gameId).on('child_changed', callback);
+};
+
+const getState = async gameId => {
+  return await db.ref(`game/${gameId}/players`).once('value');
 };
 
 const setPosition = (gameId, playerId, x, y) => {
@@ -73,5 +77,6 @@ export default {
   setPosition,
   getGames,
   joinGame,
-  getGameLevel
+  getGameLevel,
+  getState
 };
