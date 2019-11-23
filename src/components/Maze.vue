@@ -62,7 +62,7 @@ var app = {
     maze: { data: [] }
   }),
   async mounted() {
-    this.maze = await labyrinthApi.getMaze('advanced');
+    this.maze = await labyrinthApi.getMaze(this.level);
 
     window.addEventListener('keydown', e => {
       this.handleKey(e.code);
