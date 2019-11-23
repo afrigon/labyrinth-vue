@@ -83,6 +83,7 @@
 
 <script>
 import labyrinthApi from '../api/labyrinthApi';
+import firebaseApi from '../api/firebaseApi';
 
 var app = {
   name: 'Maze',
@@ -90,33 +91,66 @@ var app = {
     level: String
   },
   data: () => ({
+    gameId: -1,
+    playerId: 'anonymous',
+    maze: { data: [] },
     posx: 0,
     posy: 0,
-    maze: { data: [] }
+    players: []
   }),
   async mounted() {
+    var user = await labyrinthApi.fetchCurrentUser();
+    this.playerId = user.data.id;
     this.maze = await labyrinthApi.getMaze(this.level);
 
     window.addEventListener('keydown', e => {
-      console.log(e.keyCode);
       if ([37, 38, 39, 40].indexOf(e.keyCode) !== -1) e.preventDefault();
       this.handleKey(e.code, false);
     });
+
+    this.gameId = await firebaseApi.createGame(this.playerId);
+    await firebaseApi.watchGame(this.gameId, state => {
+      const players = state.toJSON();
+      let values = [];
+
+      for (let player in players) {
+        if (player == this.playerId) continue;
+
+        values.push({ id: player, ...players[player] });
+      }
+
+      this.players = values;
+    });
+  },
+  watch: {
+    async posx(x) {
+      await firebaseApi.setPosition(this.gameId, this.playerId, x, this.posy);
+    },
+    async posy(y) {
+      await firebaseApi.setPosition(this.gameId, this.playerId, this.posx, y);
+    }
   },
   methods: {
     handleKey(e) {
       switch (e) {
         case 'ArrowUp':
+        case 'KeyW':
+        case 'KeyK':
           if (this.maze.data[this.posy][this.posx].top) this.posy--;
           break;
+        case 'ArrowLeft':
+        case 'KeyA':
+        case 'KeyH':
+          if (this.maze.data[this.posy][this.posx].left) this.posx--;
+          break;
         case 'ArrowDown':
+        case 'KeyJ':
           if (this.maze.data[this.posy][this.posx].bottom) this.posy++;
           break;
         case 'ArrowRight':
+        case 'KeyD':
+        case 'KeyL':
           if (this.maze.data[this.posy][this.posx].right) this.posx++;
-          break;
-        case 'ArrowLeft':
-          if (this.maze.data[this.posy][this.posx].left) this.posx--;
           break;
       }
     }
