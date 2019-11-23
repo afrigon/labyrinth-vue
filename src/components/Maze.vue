@@ -174,12 +174,7 @@ var app = {
         this.posx == this.maze.data[0].length
       );
     },
-    game_win() {
-      // avertirServer
-      // changerTexte
-      console.log(`${this.playerId} has won!!!`);
-      return;
-    }
+    game_win() {}
   }
 };
 export default app;
