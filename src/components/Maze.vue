@@ -1,9 +1,7 @@
 <template>
-  <div
-    style="display: flex; align-items: center; justify-content: center; width: 100%; height: 100vh;"
-  >
-    <table
-      style="margin: auto; table-layout: fixed; width: 100%; height: 100vh;"
+  <div class="flex-container">
+    <!-- <table
+      style="margin: auto; table-layout: fixed; width: 100%; height: 100%;"
       cellspacing="0"
     >
       <thead>
@@ -44,15 +42,48 @@
           </td>
         </tr>
       </thead>
-    </table>
+    </table> -->
+    <div class="row" v-for="(row, i) in maze.data" :key="i">
+      <div
+        class="cell"
+        v-for="(cell, j) in row"
+        :key="j"
+        :style="{
+          borderRight:
+            cell.right == 0
+              ? row.indexOf(cell) == row.length - 1
+                ? '2px solid black'
+                : '2px solid black'
+              : '2px solid white',
+          borderLeft:
+            cell.left == 0
+              ? row.indexOf(cell) == 0
+                ? '2px solid black'
+                : '2px solid black'
+              : '2px solid white',
+          borderTop:
+            cell.top == 0
+              ? maze.data.indexOf(row) == 0
+                ? '2px solid black'
+                : '2px solid black'
+              : '2px solid white',
+          borderBottom:
+            cell.bottom == 0
+              ? maze.data.indexOf(row) == maze.data.length - 1
+                ? '2px solid black'
+                : '2px solid black'
+              : '2px solid white'
+        }"
+      >
+        {{ j == posx && i == posy ? 'X' : '\xa0' }}
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import labyrinthApi from '../api/labyrinthApi';
 import firebaseApi from '../api/firebaseApi';
-
-const onStateUpdate = console.log;
 
 var app = {
   name: 'Maze',
@@ -64,7 +95,8 @@ var app = {
     playerId: 'anonymous',
     maze: { data: [] },
     posx: 0,
-    posy: 0
+    posy: 0,
+    players: []
   }),
   async mounted() {
     var user = await labyrinthApi.fetchCurrentUser();
@@ -77,7 +109,18 @@ var app = {
     });
 
     this.gameId = await firebaseApi.createGame(this.playerId);
-    await firebaseApi.watchGame(this.gameId, onStateUpdate);
+    await firebaseApi.watchGame(this.gameId, state => {
+      const players = state.toJSON();
+      let values = [];
+
+      for (let player in players) {
+        if (player == this.playerId) continue;
+
+        values.push({ id: player, ...players[player] });
+      }
+
+      this.players = values;
+    });
   },
   watch: {
     async posx(x) {
@@ -92,18 +135,21 @@ var app = {
       switch (e) {
         case 'ArrowUp':
         case 'KeyW':
+        case 'KeyK':
           if (this.maze.data[this.posy][this.posx].top) this.posy--;
           break;
         case 'ArrowLeft':
         case 'KeyA':
+        case 'KeyH':
           if (this.maze.data[this.posy][this.posx].left) this.posx--;
           break;
         case 'ArrowDown':
-        case 'KeyS':
+        case 'KeyJ':
           if (this.maze.data[this.posy][this.posx].bottom) this.posy++;
           break;
         case 'ArrowRight':
         case 'KeyD':
+        case 'KeyL':
           if (this.maze.data[this.posy][this.posx].right) this.posx++;
           break;
       }
@@ -115,6 +161,26 @@ export default app;
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.flex-container {
+  display: flex;
+  width: 100%;
+  height: 97vh;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+}
+.row {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}
+.cell {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
 h3 {
   margin: 40px 0 0;
 }
