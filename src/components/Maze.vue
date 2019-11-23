@@ -1,5 +1,24 @@
 <template>
-  <div class="maze">{{ maze }}</div>
+  <table style="border: 1px solid black">
+    <thead>
+      <tr v-for="(row, headerKey) in maze.data" :key="headerKey">
+        <td
+          width="10"
+          height="10"
+          v-for="(cell, headerKey2) in row"
+          :key="headerKey2"
+          :style="{
+            borderRight: cell.right == 0 ? '1px solid black' : '',
+            borderLeft: cell.left == 0 ? '1px solid black' : '',
+            borderTop: cell.top == 0 ? '1px solid black' : '',
+            borderBottom: cell.bottom == 0 ? '1px solid black' : ''
+          }"
+        >
+          {{ '\xa0' }}
+        </td>
+      </tr>
+    </thead>
+  </table>
 </template>
 
 <script>
@@ -14,7 +33,7 @@ export default {
     maze: null
   }),
   async mounted() {
-    this.maze = await labyrinthApi.getMaze('beginner');
+    this.maze = await labyrinthApi.getMaze('advanced');
   }
 };
 </script>
