@@ -12,7 +12,12 @@
                 ? '4px solid black'
                 : '2px solid black'
               : '',
-          paddingRight: cell.right == 1 ? '2px' : '',
+          paddingRight:
+            cell.right == 1
+              ? row.indexOf(cell) == row.length - 1
+                ? '4px'
+                : '2px'
+              : '',
           borderLeft:
             cell.left == 0
               ? row.indexOf(cell) == 0
@@ -26,14 +31,14 @@
                 ? '4px solid black'
                 : '2px solid black'
               : '',
-          paddingTop: cell.top != 0 ? '2px' : '',
+          paddingTop: cell.top == 1 ? '2px' : '',
           borderBottom:
             cell.bottom == 0
               ? maze.data.indexOf(row) == maze.data.length - 1
                 ? '4px solid black'
                 : '2px solid black'
               : '',
-          paddingBottom: cell.bottom != 0 ? '2px' : ''
+          paddingBottom: cell.bottom == 1 ? '2px' : ''
         }"
       >
         <span v-for="(player, p) in players" :key="p">
