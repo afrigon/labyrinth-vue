@@ -35,4 +35,4 @@ jobs:
 
     - name: Deploying on GitHub Pages
       run: |
-        ./node_modules/gh-pages/bin/gh-pages.js -d build -u 'Github Actions <github@frigon.app>'
+        ./node_modules/gh-pages/bin/gh-pages.js -d dist -u 'Github Actions <github@frigon.app>'
