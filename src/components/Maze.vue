@@ -54,6 +54,9 @@
         </span>
       </div>
     </div>
+    <button style="position: absolute; top: 20px; right: 20px;" @click="logout">
+      logout
+    </button>
   </div>
 </template>
 
@@ -94,6 +97,9 @@ var app = {
     this.onStateUpdate(gameState);
 
     await firebaseApi.watchGame(this.gameId, this.onStateUpdate);
+
+    window.addEventListener('beforeunload', this.leaveRoom);
+    window.addEventListener('popstate', this.leaveRoom);
   },
   watch: {
     async posx(x) {
@@ -113,6 +119,13 @@ var app = {
       }
 
       this.players = values;
+    },
+    async leaveRoom() {
+      await firebaseApi.leaveGame(this.gameId, this.playerId);
+    },
+    async logout() {
+      await firebaseApi.leaveGame(this.gameId, this.playerId);
+      window.location.href = '/';
     },
     handleKey(e) {
       switch (e) {
