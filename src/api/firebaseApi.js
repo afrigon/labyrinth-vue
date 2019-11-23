@@ -7,8 +7,9 @@ const app = firebase.initializeApp({
 });
 const db = firebase.database(app);
 
-const createGame = async (gameId, playerId) => {
+const createGame = async (level, gameId, playerId) => {
   await db.ref('game/' + gameId).set({
+    level: level,
     players: {
       [playerId]: {
         color: randomColor(),
@@ -30,18 +31,18 @@ const joinGame = async (gameId, playerId) => {
     return;
   }
 
-  for (let key in players) {
-    if (key == playerId) {
-      alert('This player is already in this game');
-      return;
-    }
-  }
-
   db.ref(`game/${gameId}/players/${playerId}`).set({
     color: randomColor(),
-    x: 0,
-    y: 0
+    position: {
+      x: 0,
+      y: 0
+    }
   });
+};
+
+const getGameLevel = async gameId => {
+  const level = await db.ref(`game/${gameId}/level`).once('value');
+  return level.toJSON();
 };
 
 const getGames = async () => {
@@ -66,4 +67,11 @@ const setPosition = (gameId, playerId, x, y) => {
   });
 };
 
-export default { createGame, watchGame, setPosition, getGames, joinGame };
+export default {
+  createGame,
+  watchGame,
+  setPosition,
+  getGames,
+  joinGame,
+  getGameLevel
+};

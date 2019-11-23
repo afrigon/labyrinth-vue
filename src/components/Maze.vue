@@ -1,48 +1,5 @@
 <template>
   <div class="flex-container">
-    <!-- <table
-      style="margin: auto; table-layout: fixed; width: 100%; height: 100%;"
-      cellspacing="0"
-    >
-      <thead>
-        <tr v-for="(row, i) in maze.data" :key="i">
-          <td
-            width="10"
-            height="10"
-            v-for="(cell, j) in row"
-            :key="j"
-            :style="{
-              borderRight:
-                cell.right == 0
-                  ? row.indexOf(cell) == row.length - 1
-                    ? '2px solid black'
-                    : '1px solid black'
-                  : '',
-              borderLeft:
-                cell.left == 0
-                  ? row.indexOf(cell) == 0
-                    ? '2px solid black'
-                    : '1px solid black'
-                  : '',
-              borderTop:
-                cell.top == 0
-                  ? maze.data.indexOf(row) == 0
-                    ? '2px solid black'
-                    : '1px solid black'
-                  : '',
-              borderBottom:
-                cell.bottom == 0
-                  ? maze.data.indexOf(row) == maze.data.length - 1
-                    ? '2px solid black'
-                    : '1px solid black'
-                  : ''
-            }"
-          >
-            {{ j == posx && i == posy ? 'X' : '\xa0' }}
-          </td>
-        </tr>
-      </thead>
-    </table> -->
     <div class="row" v-for="(row, i) in maze.data" :key="i">
       <div
         class="cell"
@@ -99,17 +56,25 @@ var app = {
     players: []
   }),
   async mounted() {
+    this.gameId = this.$route.params.gameId;
+    console.log(this.gameId);
+
     var user = await labyrinthApi.fetchCurrentUser();
     this.playerId = user.data.id;
+<<<<<<< HEAD
     this.level = this.level || 'advanced';
     this.maze = await labyrinthApi.getMaze(this.level);
+=======
+
+    await firebaseApi.joinGame(this.gameId, this.playerId);
+    var level = await firebaseApi.getGameLevel(this.gameId);
+    this.maze = await labyrinthApi.getMaze(level);
+>>>>>>> d547a77514be37a36d084af6139fc03f618b082b
 
     window.addEventListener('keydown', e => {
       if ([37, 38, 39, 40].indexOf(e.keyCode) !== -1) e.preventDefault();
       this.handleKey(e.code, false);
     });
-
-    this.gameId = await firebaseApi.createGame(this.playerId);
 
     await firebaseApi.watchGame(this.gameId, state => {
       const players = state.toJSON();

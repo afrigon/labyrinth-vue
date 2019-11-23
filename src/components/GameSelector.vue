@@ -6,13 +6,21 @@
       v-model="gameId"
       placeholder="Nom de la partie..."
     />
-    <button class="create-button" @click="this.createGame">Créer</button>
+    <button class="create-button" @click="createGame('beginner')">
+      Beginner
+    </button>
+    <button class="create-button" @click="createGame('advanced')">
+      Advanced
+    </button>
 
     <h1>Rejoindre une partie:</h1>
-    <p v-if="games.length == 0">Aucune partie en cours</p>
+    <p v-if="!loaded">Chargement...</p>
+    <p v-if="loaded && games.length == 0">Aucune partie en cours</p>
     <ul v-if="games.length > 0">
       <li v-for="(gameId, i) in games" :key="i">
-        {{ gameId }}
+        <router-link :to="{ path: '/maze/' + gameId }">{{
+          gameId
+        }}</router-link>
       </li>
     </ul>
   </div>
@@ -25,16 +33,19 @@ import firebaseApi from '../api/firebaseApi';
 export default {
   name: 'GameSelector',
   data: () => ({
+    loaded: false,
     gameId: '',
-    games: ['abc', 'def', 'ghi']
+    games: []
   }),
-  async mounted() {},
+  async mounted() {
+    this.games = await firebaseApi.getGames();
+    this.loaded = true;
+  },
   methods: {
-    async createGame() {
+    async createGame(level) {
       var user = await labyrinthApi.fetchCurrentUser();
-      console.log(this.gameId);
       if (this.gameId === '') return;
-      await firebaseApi.createGame(this.gameId, user.data.id);
+      await firebaseApi.createGame(level, this.gameId, user.data.id);
     }
   }
 };

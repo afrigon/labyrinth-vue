@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
 import Lost from '../views/Lost.vue';
+import Maze from '../views/Maze.vue';
 import { hasToken } from '../authentication/authTokenTools';
 
 Vue.use(VueRouter);
@@ -20,6 +21,11 @@ const routes = [
     name: 'signin',
     component: () =>
       import(/* webpackChunkName: "about" */ '../views/Signin.vue')
+  },
+  {
+    path: '/maze/:gameId',
+    name: 'maze',
+    component: Maze
   },
   {
     path: '*',
