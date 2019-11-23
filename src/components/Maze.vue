@@ -12,7 +12,12 @@
                 ? '4px solid black'
                 : '2px solid black'
               : '',
-          paddingRight: cell.right == 1 ? '2px' : '',
+          paddingRight:
+            cell.right == 1
+              ? row.indexOf(cell) == row.length - 1
+                ? '4px'
+                : '2px'
+              : '',
           borderLeft:
             cell.left == 0
               ? row.indexOf(cell) == 0
@@ -26,14 +31,14 @@
                 ? '4px solid black'
                 : '2px solid black'
               : '',
-          paddingTop: cell.top != 0 ? '2px' : '',
+          paddingTop: cell.top == 1 ? '2px' : '',
           borderBottom:
             cell.bottom == 0
               ? maze.data.indexOf(row) == maze.data.length - 1
                 ? '4px solid black'
                 : '2px solid black'
               : '',
-          paddingBottom: cell.bottom != 0 ? '2px' : ''
+          paddingBottom: cell.bottom == 1 ? '2px' : ''
         }"
       >
         <span v-for="(player, p) in players" :key="p">
@@ -49,6 +54,9 @@
         </span>
       </div>
     </div>
+    <button style="position: absolute; top: 20px; right: 20px;" @click="logout">
+      logout
+    </button>
   </div>
 </template>
 
@@ -89,6 +97,9 @@ var app = {
     this.onStateUpdate(gameState);
 
     await firebaseApi.watchGame(this.gameId, this.onStateUpdate);
+
+    window.addEventListener('beforeunload', this.leaveRoom);
+    window.addEventListener('popstate', this.leaveRoom);
   },
   watch: {
     async posx(x) {
@@ -108,6 +119,13 @@ var app = {
       }
 
       this.players = values;
+    },
+    async leaveRoom() {
+      await firebaseApi.leaveGame(this.gameId, this.playerId);
+    },
+    async logout() {
+      await firebaseApi.leaveGame(this.gameId, this.playerId);
+      window.location.href = '/';
     },
     handleKey(e) {
       switch (e) {

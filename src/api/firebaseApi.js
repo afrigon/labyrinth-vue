@@ -33,6 +33,10 @@ const joinGame = async (gameId, playerId) => {
   });
 };
 
+const leaveGame = async (gameId, playerId) => {
+  await db.ref(`game/${gameId}/players/${playerId}`).remove();
+};
+
 const getGameLevel = async gameId => {
   const level = await db.ref(`game/${gameId}/level`).once('value');
   return level.toJSON();
@@ -71,5 +75,6 @@ export default {
   getGames,
   joinGame,
   getGameLevel,
-  getState
+  getState,
+  leaveGame
 };
