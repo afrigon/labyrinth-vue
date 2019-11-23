@@ -34,7 +34,11 @@
       >
         <span v-for="(player, p) in players" :key="p">
           <span
-            v-if="player.position.x == j && player.position.y == i"
+            v-if="
+              player.position &&
+                player.position.x == j &&
+                player.position.y == i
+            "
             class="dot"
             :style="{ backgroundColor: player.color }"
           ></span>
@@ -76,16 +80,10 @@ var app = {
       this.handleKey(e.code, false);
     });
 
-    await firebaseApi.watchGame(this.gameId, state => {
-      const players = state.toJSON();
-      let values = [];
+    const gameState = await firebaseApi.getState(this.gameId);
+    this.onStateUpdate(gameState);
 
-      for (let player in players) {
-        values.push({ id: player, ...players[player] });
-      }
-
-      this.players = values;
-    });
+    await firebaseApi.watchGame(this.gameId, this.onStateUpdate);
   },
   watch: {
     async posx(x) {
@@ -96,6 +94,16 @@ var app = {
     }
   },
   methods: {
+    onStateUpdate(state) {
+      const players = state.toJSON();
+      let values = [];
+
+      for (let player in players) {
+        values.push({ id: player, ...players[player] });
+      }
+
+      this.players = values;
+    },
     handleKey(e) {
       var godmode = true;
       switch (e) {
