@@ -1,14 +1,14 @@
 <template>
   <div class="home">
-    <GameSelector />
+    <Maze />
   </div>
 </template>
 
 <script>
-import GameSelector from '@/components/GameSelector.vue';
+import Maze from '@/components/Maze.vue';
 
 export default {
   name: 'Home',
-  components: { GameSelector }
+  components: { Maze }
 };
 </script>

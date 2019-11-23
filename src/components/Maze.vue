@@ -9,25 +9,25 @@
           borderRight:
             cell.right == 0
               ? row.indexOf(cell) == row.length - 1
-                ? '2px solid black'
+                ? '4px solid black'
                 : '2px solid black'
               : '2px solid white',
           borderLeft:
             cell.left == 0
               ? row.indexOf(cell) == 0
-                ? '2px solid black'
+                ? '4px solid black'
                 : '2px solid black'
               : '2px solid white',
           borderTop:
             cell.top == 0
               ? maze.data.indexOf(row) == 0
-                ? '2px solid black'
+                ? '4px solid black'
                 : '2px solid black'
               : '2px solid white',
           borderBottom:
             cell.bottom == 0
               ? maze.data.indexOf(row) == maze.data.length - 1
-                ? '2px solid black'
+                ? '4px solid black'
                 : '2px solid black'
               : '2px solid white'
         }"
@@ -76,10 +76,15 @@ var app = {
 
     var user = await labyrinthApi.fetchCurrentUser();
     this.playerId = user.data.id;
+<<<<<<< HEAD
+    this.level = this.level || 'advanced';
+    this.maze = await labyrinthApi.getMaze(this.level);
+=======
 
     await firebaseApi.joinGame(this.gameId, this.playerId);
     var level = await firebaseApi.getGameLevel(this.gameId);
     this.maze = await labyrinthApi.getMaze(level);
+>>>>>>> d547a77514be37a36d084af6139fc03f618b082b
 
     window.addEventListener('keydown', e => {
       if ([37, 38, 39, 40].indexOf(e.keyCode) !== -1) e.preventDefault();
@@ -150,6 +155,8 @@ export default app;
   display: flex;
   flex-direction: row;
   height: 100%;
+  align-content: center;
+  box-sizing: border-box;
 }
 .cell {
   display: flex;
@@ -157,7 +164,7 @@ export default app;
   height: 100%;
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
+  box-sizing: border-box;
 }
 h3 {
   margin: 40px 0 0;
