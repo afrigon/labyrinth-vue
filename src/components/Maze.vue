@@ -121,6 +121,11 @@ var app = {
   },
   methods: {
     onStateUpdate(players) {
+      console.log(players);
+      if (players === true) {
+        alert('Game over');
+        return;
+      }
       let values = [];
 
       for (let player in players) {
@@ -174,7 +179,9 @@ var app = {
         this.posx == this.maze.data[0].length
       );
     },
-    game_win() {}
+    game_win() {
+      firebaseApi.endGame(this.gameId);
+    }
   }
 };
 export default app;

@@ -73,6 +73,11 @@ const setPosition = (gameId, playerId, x, y) => {
   });
 };
 
+const endGame = gameId => {
+  console.log('hey');
+  db.ref(`game/${gameId}`).update({ over: true });
+};
+
 export default {
   createGame,
   watchGame,
@@ -81,5 +86,6 @@ export default {
   joinGame,
   getGameLevel,
   getState,
-  leaveGame
+  leaveGame,
+  endGame
 };
