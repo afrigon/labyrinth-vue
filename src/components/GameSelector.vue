@@ -45,6 +45,10 @@ export default {
     async createGame(level) {
       var user = await labyrinthApi.fetchCurrentUser();
       if (this.gameId === '') return;
+      if (this.games.indexOf(this.gameId) !== -1) {
+        alert('La partie existe déjà!');
+        return;
+      }
       await firebaseApi.createGame(level, this.gameId, user.data.id);
       window.location.href = `/maze/${this.gameId}`;
     }
