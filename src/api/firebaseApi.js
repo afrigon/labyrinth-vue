@@ -45,6 +45,9 @@ const getGameLevel = async gameId => {
 const getGames = async () => {
   let games = await db.ref('game').once('value');
   games = games.toJSON();
+
+  if (!games.length) return [];
+
   games = Object.keys(games).map(k => ({
     id: k,
     ...games[k]
