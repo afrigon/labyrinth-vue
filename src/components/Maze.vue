@@ -145,6 +145,7 @@ var app = {
             this.posx--;
           break;
         case 'ArrowDown':
+        case 'KeyS':
         case 'KeyJ':
           if (this.godmode || this.maze.data[this.posy][this.posx].bottom)
             this.posy++;
