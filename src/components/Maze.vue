@@ -52,8 +52,6 @@
 import labyrinthApi from '../api/labyrinthApi';
 import firebaseApi from '../api/firebaseApi';
 
-const onStateUpdate = console.log;
-
 var app = {
   name: 'Maze',
   props: {
@@ -64,7 +62,8 @@ var app = {
     playerId: 'xehos',
     maze: { data: [] },
     posx: 0,
-    posy: 0
+    posy: 0,
+    players: []
   }),
   async mounted() {
     this.maze = await labyrinthApi.getMaze(this.level);
@@ -74,8 +73,19 @@ var app = {
       this.handleKey(e.code, false);
     });
 
-    this.gameId = await firebaseApi.createGame(this.palyerId);
-    await firebaseApi.watchGame(this.gameId, onStateUpdate);
+    this.gameId = await firebaseApi.createGame(this.playerId);
+    await firebaseApi.watchGame(this.gameId, state => {
+      const players = state.toJSON();
+      let values = [];
+
+      for (let player in players) {
+        if (player == this.playerId) continue;
+
+        values.push({ id: player, ...players[player] });
+      }
+
+      this.players = values;
+    });
   },
   watch: {
     async posx(x) {
@@ -90,18 +100,21 @@ var app = {
       switch (e) {
         case 'ArrowUp':
         case 'KeyW':
+        case 'KeyK':
           if (this.maze.data[this.posy][this.posx].top) this.posy--;
           break;
         case 'ArrowLeft':
         case 'KeyA':
+        case 'KeyH':
           if (this.maze.data[this.posy][this.posx].left) this.posx--;
           break;
         case 'ArrowDown':
-        case 'KeyS':
+        case 'KeyJ':
           if (this.maze.data[this.posy][this.posx].bottom) this.posy++;
           break;
         case 'ArrowRight':
         case 'KeyD':
+        case 'KeyL':
           if (this.maze.data[this.posy][this.posx].right) this.posx++;
           break;
       }

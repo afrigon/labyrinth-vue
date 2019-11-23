@@ -3,10 +3,9 @@ import 'firebase/database';
 //import uuid from 'uuid/v4';
 import randomColor from 'randomcolor';
 
-const uuid = () => '1337';
+const uuid = () => '1338';
 
 const app = firebase.initializeApp({
-  // authDomain: "hackathon-aeglo-19.firebaseapp.com",
   databaseURL: 'https://hackathon-aeglo-19.firebaseio.com'
 });
 const db = firebase.database(app);
@@ -35,6 +34,17 @@ const createGame = async id => {
 //   }
 // }
 
+const getGames = async () => {
+  let games = await db.ref('game').once('value');
+  games = games.toJSON();
+  games = Object.keys(games).map(k => ({
+    id: k,
+    ...games[k]
+  }));
+  games = games.filter(g => Object.keys(g.players).length < 4);
+  return games.map(g => g.id);
+};
+
 const watchGame = (gameId, callback) => {
   return db.ref('game/' + gameId).on('child_changed', callback);
 };
@@ -46,4 +56,4 @@ const setPosition = (gameId, playerId, x, y) => {
   });
 };
 
-export default { createGame, watchGame, setPosition };
+export default { createGame, watchGame, setPosition, getGames };
