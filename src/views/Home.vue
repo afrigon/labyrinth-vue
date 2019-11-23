@@ -1,17 +1,15 @@
 <template>
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <Maze level="beginner" />
   </div>
 </template>
 
 <script>
-import HelloWorld from '@/components/HelloWorld.vue';
+import Maze from '@/components/Maze.vue';
 
 export default {
   name: 'Home',
-  components: {
-    HelloWorld
-  }
+  components: { Maze }
 };
 </script>
