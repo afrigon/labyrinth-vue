@@ -102,9 +102,11 @@ var app = {
     });
 
     const gameState = await firebaseApi.getState(this.gameId);
-    this.onStateUpdate(gameState.players || []);
+    this.onStateUpdate(gameState.toJSON().players || []);
 
-    await firebaseApi.watchGame(this.gameId, this.onStateUpdate);
+    await firebaseApi.watchGame(this.gameId, state =>
+      this.onStateUpdate(state.toJSON())
+    );
 
     window.addEventListener('beforeunload', this.leaveRoom);
     window.addEventListener('popstate', this.leaveRoom);
@@ -118,8 +120,7 @@ var app = {
     }
   },
   methods: {
-    onStateUpdate(state) {
-      const players = state.toJSON();
+    onStateUpdate(players) {
       let values = [];
 
       for (let player in players) {
