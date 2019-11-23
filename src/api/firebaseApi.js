@@ -44,17 +44,17 @@ const getGameLevel = async gameId => {
 
 const getGames = async () => {
   let games = await db.ref('game').once('value');
-  if (!games) return [];
-
   games = games.toJSON();
 
-  if (!games.length) return [];
+  if (!games || !Object.keys(games).length) return [];
 
   games = Object.keys(games).map(k => ({
     id: k,
     ...games[k]
   }));
-  games = games.filter(g => !g.over && Object.keys(g.players).length < 4);
+
+  games = games.filter(g => !g.over && Object.keys(g.players || {}).length < 4);
+
   return games.map(g => g.id);
 };
 
