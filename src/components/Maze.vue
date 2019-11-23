@@ -60,13 +60,15 @@ var app = {
     level: String
   },
   data: () => ({
-    gameId: null,
-    playerId: 'xehos',
+    gameId: -1,
+    playerId: 'anonymous',
     maze: { data: [] },
     posx: 0,
     posy: 0
   }),
   async mounted() {
+    var user = await labyrinthApi.fetchCurrentUser();
+    this.playerId = user.data.id;
     this.maze = await labyrinthApi.getMaze(this.level);
 
     window.addEventListener('keydown', e => {
@@ -74,7 +76,7 @@ var app = {
       this.handleKey(e.code, false);
     });
 
-    this.gameId = await firebaseApi.createGame(this.palyerId);
+    this.gameId = await firebaseApi.createGame(this.playerId);
     await firebaseApi.watchGame(this.gameId, onStateUpdate);
   },
   watch: {
