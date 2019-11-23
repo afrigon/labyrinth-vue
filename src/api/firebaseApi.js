@@ -63,7 +63,7 @@ const watchGame = async (gameId, callback) => {
 };
 
 const getState = async gameId => {
-  return await db.ref(`game/${gameId}`).once('value');
+  return await (await db.ref(`game/${gameId}`).once('value')).toJSON();
 };
 
 const setPosition = (gameId, playerId, x, y) => {
