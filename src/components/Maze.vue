@@ -134,7 +134,7 @@ var app = {
     },
     async logout() {
       await firebaseApi.leaveGame(this.gameId, this.playerId);
-      window.location.href = '/';
+      this.$router.push('/');
     },
     handleKey(e) {
       switch (e) {
