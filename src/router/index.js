@@ -23,7 +23,7 @@ const routes = [
       import(/* webpackChunkName: "about" */ '../views/Signin.vue')
   },
   {
-    path: '/maze/*',
+    path: '/maze/:gameId',
     name: 'maze',
     component: Maze
   },

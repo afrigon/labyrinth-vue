@@ -7,8 +7,9 @@ const app = firebase.initializeApp({
 });
 const db = firebase.database(app);
 
-const createGame = async (gameId, playerId) => {
+const createGame = async (level, gameId, playerId) => {
   await db.ref('game/' + gameId).set({
+    level: level,
     players: {
       [playerId]: {
         color: randomColor(),
