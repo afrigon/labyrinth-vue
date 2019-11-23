@@ -74,7 +74,6 @@ const setPosition = (gameId, playerId, x, y) => {
 };
 
 const endGame = gameId => {
-  console.log('hey');
   db.ref(`game/${gameId}`).update({ over: true });
 };
 
