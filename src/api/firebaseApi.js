@@ -23,14 +23,6 @@ const createGame = async (level, gameId, playerId) => {
 };
 
 const joinGame = async (gameId, playerId) => {
-  const snapshot = await db.ref('game/' + gameId).once('value');
-  const players = snapshot.toJSON().players;
-
-  if (Object.keys(players).length >= 4) {
-    alert('This room is full');
-    return;
-  }
-
   db.ref(`game/${gameId}/players/${playerId}`).set({
     color: randomColor(),
     position: {
@@ -56,8 +48,12 @@ const getGames = async () => {
   return games.map(g => g.id);
 };
 
-const watchGame = (gameId, callback) => {
-  return db.ref('game/' + gameId).on('child_changed', callback);
+const watchGame = async (gameId, callback) => {
+  await db.ref('game/' + gameId).on('child_changed', callback);
+};
+
+const getState = async gameId => {
+  return await db.ref(`game/${gameId}/players`).once('value');
 };
 
 const setPosition = (gameId, playerId, x, y) => {
@@ -73,5 +69,6 @@ export default {
   setPosition,
   getGames,
   joinGame,
-  getGameLevel
+  getGameLevel,
+  getState
 };

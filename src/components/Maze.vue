@@ -6,7 +6,6 @@
         v-for="(cell, j) in row"
         :key="j"
         :style="{
-          borderRadius: 20,
           borderRight:
             cell.right == 0
               ? row.indexOf(cell) == row.length - 1
@@ -39,7 +38,11 @@
       >
         <span v-for="(player, p) in players" :key="p">
           <span
-            v-if="player.position.x == j && player.position.y == i"
+            v-if="
+              player.position &&
+                player.position.x == j &&
+                player.position.y == i
+            "
             class="dot"
             :style="{ backgroundColor: player.color }"
           ></span>
@@ -64,11 +67,11 @@ var app = {
     maze: { data: [] },
     posx: 0,
     posy: 0,
-    players: []
+    players: [],
+    godmode: false
   }),
   async mounted() {
     this.gameId = this.$route.params.gameId;
-    console.log(this.gameId);
 
     var user = await labyrinthApi.fetchCurrentUser();
     this.playerId = user.data.id;
@@ -82,16 +85,10 @@ var app = {
       this.handleKey(e.code, false);
     });
 
-    await firebaseApi.watchGame(this.gameId, state => {
-      const players = state.toJSON();
-      let values = [];
+    const gameState = await firebaseApi.getState(this.gameId);
+    this.onStateUpdate(gameState);
 
-      for (let player in players) {
-        values.push({ id: player, ...players[player] });
-      }
-
-      this.players = values;
-    });
+    await firebaseApi.watchGame(this.gameId, this.onStateUpdate);
   },
   watch: {
     async posx(x) {
@@ -102,28 +99,42 @@ var app = {
     }
   },
   methods: {
+    onStateUpdate(state) {
+      const players = state.toJSON();
+      let values = [];
+
+      for (let player in players) {
+        values.push({ id: player, ...players[player] });
+      }
+
+      this.players = values;
+    },
     handleKey(e) {
-      var godmode = true;
       switch (e) {
+        case 'KeyG':
+          this.godmode = !this.godmode;
+          break;
         case 'ArrowUp':
         case 'KeyW':
         case 'KeyK':
-          if (godmode || this.maze.data[this.posy][this.posx].top) this.posy--;
+          if (this.godmode || this.maze.data[this.posy][this.posx].top)
+            this.posy--;
           break;
         case 'ArrowLeft':
         case 'KeyA':
         case 'KeyH':
-          if (godmode || this.maze.data[this.posy][this.posx].left) this.posx--;
+          if (this.godmode || this.maze.data[this.posy][this.posx].left)
+            this.posx--;
           break;
         case 'ArrowDown':
         case 'KeyJ':
-          if (godmode || this.maze.data[this.posy][this.posx].bottom)
+          if (this.godmode || this.maze.data[this.posy][this.posx].bottom)
             this.posy++;
           break;
         case 'ArrowRight':
         case 'KeyD':
         case 'KeyL':
-          if (godmode || this.maze.data[this.posy][this.posx].right)
+          if (this.godmode || this.maze.data[this.posy][this.posx].right)
             this.posx++;
           break;
       }
