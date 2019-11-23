@@ -63,7 +63,8 @@ var app = {
     maze: { data: [] },
     posx: 0,
     posy: 0,
-    players: []
+    players: [],
+    godmode: false
   }),
   async mounted() {
     this.gameId = this.$route.params.gameId;
@@ -105,27 +106,31 @@ var app = {
       this.players = values;
     },
     handleKey(e) {
-      var godmode = true;
       switch (e) {
+        case 'KeyG':
+          this.godmode = !this.godmode;
+          break;
         case 'ArrowUp':
         case 'KeyW':
         case 'KeyK':
-          if (godmode || this.maze.data[this.posy][this.posx].top) this.posy--;
+          if (this.godmode || this.maze.data[this.posy][this.posx].top)
+            this.posy--;
           break;
         case 'ArrowLeft':
         case 'KeyA':
         case 'KeyH':
-          if (godmode || this.maze.data[this.posy][this.posx].left) this.posx--;
+          if (this.godmode || this.maze.data[this.posy][this.posx].left)
+            this.posx--;
           break;
         case 'ArrowDown':
         case 'KeyJ':
-          if (godmode || this.maze.data[this.posy][this.posx].bottom)
+          if (this.godmode || this.maze.data[this.posy][this.posx].bottom)
             this.posy++;
           break;
         case 'ArrowRight':
         case 'KeyD':
         case 'KeyL':
-          if (godmode || this.maze.data[this.posy][this.posx].right)
+          if (this.godmode || this.maze.data[this.posy][this.posx].right)
             this.posx++;
           break;
       }
