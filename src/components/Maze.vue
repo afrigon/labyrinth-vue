@@ -35,7 +35,7 @@ export default {
     maze: null
   }),
   async mounted() {
-    this.maze = await labyrinthApi.getMaze('advanced');
+    this.maze = await labyrinthApi.getMaze(this.level);
   }
 };
 </script>
