@@ -31,18 +31,18 @@ const joinGame = async (gameId, playerId) => {
     return;
   }
 
-  for (let key in players) {
-    if (key == playerId) {
-      alert('This player is already in this game');
-      return;
-    }
-  }
-
   db.ref(`game/${gameId}/players/${playerId}`).set({
     color: randomColor(),
-    x: 0,
-    y: 0
+    position: {
+      x: 0,
+      y: 0
+    }
   });
+};
+
+const getGameLevel = async gameId => {
+  console.log(gameId);
+  return 'advanced';
 };
 
 const getGames = async () => {
@@ -67,4 +67,11 @@ const setPosition = (gameId, playerId, x, y) => {
   });
 };
 
-export default { createGame, watchGame, setPosition, getGames, joinGame };
+export default {
+  createGame,
+  watchGame,
+  setPosition,
+  getGames,
+  joinGame,
+  getGameLevel
+};

@@ -56,16 +56,20 @@ var app = {
     players: []
   }),
   async mounted() {
+    this.gameId = this.$route.params.gameId;
+    console.log(this.gameId);
+
     var user = await labyrinthApi.fetchCurrentUser();
     this.playerId = user.data.id;
-    this.maze = await labyrinthApi.getMaze('advanced'); // TODO CRISS
+
+    await firebaseApi.joinGame(this.gameId, this.playerId);
+    var level = await firebaseApi.getGameLevel(this.gameId);
+    this.maze = await labyrinthApi.getMaze(level);
 
     window.addEventListener('keydown', e => {
       if ([37, 38, 39, 40].indexOf(e.keyCode) !== -1) e.preventDefault();
       this.handleKey(e.code, false);
     });
-
-    this.gameId = await firebaseApi.createGame(this.playerId);
 
     await firebaseApi.watchGame(this.gameId, state => {
       const players = state.toJSON();
