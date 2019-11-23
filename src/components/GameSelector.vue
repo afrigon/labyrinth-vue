@@ -1,11 +1,7 @@
 <template>
   <div class="container">
-    <h1>Créer une partie</h1>
-    <input
-      class="create-input"
-      v-model="gameId"
-      placeholder="Nom de la partie..."
-    />
+    <h1>Create game</h1>
+    <input class="create-input" v-model="gameId" placeholder="name" />
     <button class="create-button" @click="createGame('beginner')">
       Beginner
     </button>
@@ -13,15 +9,24 @@
       Advanced
     </button>
 
-    <h1>Rejoindre une partie</h1>
-    <p v-if="!loaded">Chargement...</p>
-    <p v-if="loaded && games.length == 0">Aucune partie en cours</p>
+    <h1>Join a game</h1>
+    <p v-if="!loaded">Loading...</p>
+    <p v-if="loaded && games.length == 0">No games found</p>
     <ul v-if="games.length > 0">
       <li v-for="(gameId, i) in games" :key="i">
         <router-link :to="{ path: '/maze/' + gameId }">{{
           gameId
         }}</router-link>
       </li>
+    </ul>
+
+    <h2>Controls</h2>
+    <ul>
+      <li><b>w</b>: Go up</li>
+      <li><b>a</b>: Go left</li>
+      <li><b>s</b>: Go down</li>
+      <li><b>d</b>: Go right</li>
+      <li><b>g</b>: Toggle Godmode</li>
     </ul>
   </div>
 </template>
