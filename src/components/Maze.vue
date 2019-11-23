@@ -1,5 +1,5 @@
 <template>
-  <table style="border: 1px solid black">
+  <table cellspacing="0">
     <thead>
       <tr v-for="(row, headerKey) in maze.data" :key="headerKey">
         <td
