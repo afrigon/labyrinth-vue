@@ -41,8 +41,8 @@ const joinGame = async (gameId, playerId) => {
 };
 
 const getGameLevel = async gameId => {
-  console.log(gameId);
-  return 'advanced';
+  const level = await db.ref(`game/${gameId}/level`).once('value');
+  return level.toJSON();
 };
 
 const getGames = async () => {
