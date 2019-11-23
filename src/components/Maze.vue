@@ -32,22 +32,13 @@
               : '2px solid white'
         }"
       >
-        {{ j == posx && i == posy ? '1' : '\xa0' }}
-        {{
-          players[0] && j == players[0].position.x && i == players[0].position.y
-            ? '2'
-            : '\xa0'
-        }}
-        {{
-          players[1] && j == players[1].position.x && i == players[1].position.y
-            ? '3'
-            : '\xa0'
-        }}
-        {{
-          players[2] && j == players[2].position.x && i == players[2].position.y
-            ? '4'
-            : '\xa0'
-        }}
+        <span v-for="(player, p) in players" :key="p">
+          <span
+            v-if="player.position.x == j && player.position.y == i"
+            class="dot"
+            :style="{ backgroundColor: player.color }"
+          ></span>
+        </span>
       </div>
     </div>
   </div>
@@ -91,8 +82,6 @@ var app = {
       let values = [];
 
       for (let player in players) {
-        if (player == this.playerId) continue;
-
         values.push({ id: player, ...players[player] });
       }
 
@@ -174,5 +163,11 @@ li {
 }
 a {
   color: #42b983;
+}
+.dot {
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  display: inline-block;
 }
 </style>
