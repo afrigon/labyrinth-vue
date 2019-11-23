@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <Maze level="beginner" />
+    <Maze level="advanced" />
   </div>
 </template>
 
