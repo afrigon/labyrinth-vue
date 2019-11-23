@@ -26,13 +26,28 @@ const createGame = async id => {
   return gameId;
 };
 
-// const joinGame = async (gameId, playerId) => {
-//   const game = await getState(gameId);
+const joinGame = async (gameId, playerId) => {
+  const snapshot = await db.ref('game/' + gameId).once('value');
+  const players = snapshot.toJSON().players;
 
-//   if (game.players.length >= 4) {
-//     alert("this room is already full")
-//   }
-// }
+  if (Object.keys(players).length >= 4) {
+    alert('This room is full');
+    return;
+  }
+
+  for (let key in players) {
+    if (key == playerId) {
+      alert('This player is already in this game');
+      return;
+    }
+  }
+
+  db.ref(`game/${gameId}/players/${playerId}`).set({
+    color: randomColor(),
+    x: 0,
+    y: 0
+  });
+};
 
 const getGames = async () => {
   let games = await db.ref('game').once('value');
@@ -56,4 +71,4 @@ const setPosition = (gameId, playerId, x, y) => {
   });
 };
 
-export default { createGame, watchGame, setPosition, getGames };
+export default { createGame, watchGame, setPosition, getGames, joinGame };

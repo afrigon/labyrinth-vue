@@ -109,6 +109,7 @@ var app = {
     });
 
     this.gameId = await firebaseApi.createGame(this.playerId);
+
     await firebaseApi.watchGame(this.gameId, state => {
       const players = state.toJSON();
       let values = [];
