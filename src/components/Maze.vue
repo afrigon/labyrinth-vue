@@ -7,12 +7,12 @@
       cellspacing="0"
     >
       <thead>
-        <tr v-for="(row, headerKey) in maze.data" :key="headerKey">
+        <tr v-for="(row, i) in maze.data" :key="i">
           <td
             width="10"
             height="10"
-            v-for="(cell, headerKey2) in row"
-            :key="headerKey2"
+            v-for="(cell, j) in row"
+            :key="j"
             :style="{
               borderRight:
                 cell.right == 0
@@ -40,7 +40,7 @@
                   : ''
             }"
           >
-            {{ '\xa0' }}
+            {{ j == posx && i == posy ? 'X' : '\xa0' }}
           </td>
         </tr>
       </thead>
@@ -51,18 +51,48 @@
 <script>
 import labyrinthApi from '../api/labyrinthApi';
 
-export default {
+var app = {
   name: 'Maze',
   props: {
     level: String
   },
   data: () => ({
-    maze: null
+    posx: 0,
+    posy: 0,
+    maze: { data: [] }
   }),
   async mounted() {
+<<<<<<< HEAD
     this.maze = await labyrinthApi.getMaze(this.level);
+=======
+    this.maze = await labyrinthApi.getMaze('advanced');
+
+    window.addEventListener('keydown', e => {
+      this.handleKey(e.code);
+    });
+  },
+  methods: {
+    handleKey(e) {
+      console.log(this);
+      switch (e) {
+        case 'ArrowUp':
+          if (this.maze.data[this.posy][this.posx].top) this.posy--;
+          break;
+        case 'ArrowDown':
+          if (this.maze.data[this.posy][this.posx].bottom) this.posy++;
+          break;
+        case 'ArrowRight':
+          if (this.maze.data[this.posy][this.posx].right) this.posx++;
+          break;
+        case 'ArrowLeft':
+          if (this.maze.data[this.posy][this.posx].left) this.posx--;
+          break;
+      }
+    }
+>>>>>>> 6162095978d887781e78cc2ed329c8d917d91eba
   }
 };
+export default app;
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
