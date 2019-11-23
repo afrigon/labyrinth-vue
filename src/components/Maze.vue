@@ -11,25 +11,29 @@
               ? row.indexOf(cell) == row.length - 1
                 ? '4px solid black'
                 : '2px solid black'
-              : '2px solid white',
+              : '',
+          paddingRight: cell.right == 1 ? '2px' : '',
           borderLeft:
             cell.left == 0
               ? row.indexOf(cell) == 0
                 ? '4px solid black'
                 : '2px solid black'
-              : '2px solid white',
+              : '',
+          paddingLeft: cell.left == 1 ? '2px' : '',
           borderTop:
             cell.top == 0
               ? maze.data.indexOf(row) == 0
                 ? '4px solid black'
                 : '2px solid black'
-              : '2px solid white',
+              : '',
+          paddingTop: cell.top != 0 ? '2px' : '',
           borderBottom:
             cell.bottom == 0
               ? maze.data.indexOf(row) == maze.data.length - 1
                 ? '4px solid black'
                 : '2px solid black'
-              : '2px solid white'
+              : '',
+          paddingBottom: cell.bottom != 0 ? '2px' : ''
         }"
       >
         <span v-for="(player, p) in players" :key="p">
@@ -66,7 +70,8 @@ var app = {
     maze: { data: [] },
     posx: 0,
     posy: 0,
-    players: []
+    players: [],
+    godmode: false
   }),
   async mounted() {
     this.gameId = this.$route.params.gameId;
@@ -118,27 +123,31 @@ var app = {
       window.location.href = '/';
     },
     handleKey(e) {
-      var godmode = true;
       switch (e) {
+        case 'KeyG':
+          this.godmode = !this.godmode;
+          break;
         case 'ArrowUp':
         case 'KeyW':
         case 'KeyK':
-          if (godmode || this.maze.data[this.posy][this.posx].top) this.posy--;
+          if (this.godmode || this.maze.data[this.posy][this.posx].top)
+            this.posy--;
           break;
         case 'ArrowLeft':
         case 'KeyA':
         case 'KeyH':
-          if (godmode || this.maze.data[this.posy][this.posx].left) this.posx--;
+          if (this.godmode || this.maze.data[this.posy][this.posx].left)
+            this.posx--;
           break;
         case 'ArrowDown':
         case 'KeyJ':
-          if (godmode || this.maze.data[this.posy][this.posx].bottom)
+          if (this.godmode || this.maze.data[this.posy][this.posx].bottom)
             this.posy++;
           break;
         case 'ArrowRight':
         case 'KeyD':
         case 'KeyL':
-          if (godmode || this.maze.data[this.posy][this.posx].right)
+          if (this.godmode || this.maze.data[this.posy][this.posx].right)
             this.posx++;
           break;
       }
@@ -173,6 +182,7 @@ export default app;
   align-items: center;
   box-sizing: border-box;
 }
+
 h3 {
   margin: 40px 0 0;
 }

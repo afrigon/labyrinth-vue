@@ -23,14 +23,6 @@ const createGame = async (level, gameId, playerId) => {
 };
 
 const joinGame = async (gameId, playerId) => {
-  const snapshot = await db.ref('game/' + gameId).once('value');
-  const players = snapshot.toJSON().players;
-
-  if (Object.keys(players).length >= 4) {
-    alert('This room is full');
-    return;
-  }
-
   db.ref(`game/${gameId}/players/${playerId}`).set({
     color: randomColor(),
     position: {
